@@ -57,7 +57,7 @@ const parseSegment = (segment)=>{
     }
     else if(segment[0]=='>')
     {// reference
-        return "<reference>"+segment.substring(1)+"</reference>";
+        return "<reference>"+inlineParse(segment.substring(1))+"</reference>";
     }
     else if(segment[0]=='-')
     {// unordered list
@@ -66,7 +66,7 @@ const parseSegment = (segment)=>{
         var num = 0;
         while(lines[num][0]=='-')
         {
-            html += '<li>'+lines[num].substring(1)+"</li>";
+            html += '<li>'+inlineParse(lines[num].substring(1))+"</li>";
             num++;
             if(num==lines.length)break;
         }
@@ -85,7 +85,7 @@ const parseSegment = (segment)=>{
         var num = 0;
         while(lines[num][0]=='+')
         {
-            html += '<li>'+lines[num].substring(1)+"</li>";
+            html += '<li>'+inlineParse(lines[num].substring(1))+"</li>";
             num++;
             if(num==lines.length)break;
         }
