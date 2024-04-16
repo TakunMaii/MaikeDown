@@ -1,10 +1,17 @@
 const inlineParse = (segment)=>{
-    
+    console.log(segment);
+    //bold and italic
+    segment = segment.replace(/\*\*\*(.*?)\*\*\*/gm, "<b><i>$1</i></b>");
+    //bold
+    segment = segment.replace(/\*\*(.*?)\*\*/gm, "<b>$1</b>");
+    //italic
+    segment = segment.replace(/\*(.*?)\*/gm, "<i>$1</i>");
+    return segment;
 }
 
 const parseSegment = (segment)=>{
     if(!segment)return "";
-    console.log("parse segment: "+segment);
+    // console.log("parse segment: "+segment);
     if(segment[0]=='#')
     {//title
         var index = segment.indexOf('\n');
@@ -70,7 +77,7 @@ const parseSegment = (segment)=>{
     }
     else
     {//normal text
-        return "<div>"+segment+"</div>";
+        return "<div>"+inlineParse(segment)+"</div>";
     }
     
 }
