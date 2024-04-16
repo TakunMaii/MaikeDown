@@ -1,3 +1,18 @@
+const codeParse = (segment)=>{
+    segment = segment.replace(/\b(var|function|const|int|char|bool|double|float|void|if|else|while|for|break|continue|new|delete|using|try|true|false)\b/gm, function(match) {
+        return '<codekey>' + match + '</codekey>';
+    });
+    segment = segment.replace(/\b(\d+(\.\d+)?)\b/gm, function(match) {
+        return '<codenumber>' + match + '</codenumber>';
+    });
+    segment = segment.replace(/(\(|\)|\{|\}|\[|\])/gm, function(match) {
+        return '<codebracket>' + match + '</codebracket>';
+    });
+    segment = segment.replace(/\n/g,"<br>");
+    segment = segment.replace(/ /g, '&nbsp;');
+    return segment;
+}
+
 const inlineParse = (segment)=>{
     console.log(segment);
     //bold and italic
@@ -6,6 +21,12 @@ const inlineParse = (segment)=>{
     segment = segment.replace(/\*\*(.*?)\*\*/gm, "<b>$1</b>");
     //italic
     segment = segment.replace(/\*(.*?)\*/gm, "<i>$1</i>");
+    //in line cube
+    segment = segment.replace(/\$(.*?)\$/gm, function(match){
+        match = codeParse(match);
+        match = match.substring(1,match.length-1);
+        return "<inlinecode>"+match+"</inlinecode>";
+    });
     return segment;
 }
 
@@ -74,6 +95,22 @@ const parseSegment = (segment)=>{
             rest += lines[num];
         }
         return html + parseSegment(rest);
+    }
+    else if(segment[0]=='$'&&segment[1]=='$')
+    {
+        const parts = segment.split("$$");
+        var html = "";
+        //use 1,3,5...
+        for(var i = 0;i<parts.length;i++)
+        {
+            if(i%2==0)
+            {
+                html += parts[i];
+                continue;
+            }
+            html += "<codecube>"+codeParse(parts[i])+"</codecube>";
+        }
+        return html;
     }
     else
     {//normal text

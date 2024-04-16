@@ -2,3 +2,26 @@ reference{
     background-color: gray;
     display: block;
 }
+
+inlinecode{
+    background-color: black;
+    color: white;
+}
+
+codekey{
+    color: aqua;
+}
+
+codenumber{
+    color: blueviolet;
+}
+
+codebracket{
+    color: brown;
+}
+
+codecube{
+    display: block;
+    background-color: black;
+    color : white;
+}
