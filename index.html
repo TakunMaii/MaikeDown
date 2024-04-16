@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>MaikeDown</title>
+        <script src="./maikedown.js"></script>
+        <link rel="stylesheet" href="default-maikedown.css">
+    </head>
+    <body>
+        <textarea type="text" id="input"></textarea>
+        <button onclick="maikeit()">Maike It!</button>
+        <div id="show"></div>
+        <script>
+            const maikeit = ()=>{
+                const mainview = document.getElementById("input");
+                const showview = document.getElementById("show");
+                const parsed = maike(mainview.value);
+                showview.innerHTML = parsed;
+                console.log(parsed);
+            }
+        </script>
+    </body>
+</html>
