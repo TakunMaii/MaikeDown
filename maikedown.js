@@ -21,12 +21,13 @@ const inlineParse = (segment)=>{
     segment = segment.replace(/\*\*(.*?)\*\*/gm, "<b>$1</b>");
     //italic
     segment = segment.replace(/\*(.*?)\*/gm, "<i>$1</i>");
-    //in line cube
-    segment = segment.replace(/\$(.*?)\$/gm, function(match){
+    //in line code
+    segment = segment.replace(/`(.*?)`/gm, function(match){
         match = codeParse(match);
         match = match.substring(1,match.length-1);
         return "<inlinecode>"+match+"</inlinecode>";
     });
+    
     return segment;
 }
 
@@ -96,9 +97,9 @@ const parseSegment = (segment)=>{
         }
         return html + parseSegment(rest);
     }
-    else if(segment[0]=='$'&&segment[1]=='$')
+    else if(segment[0]=='`'&&segment[1]=='`'&&segment[2]=='`')
     {
-        const parts = segment.split("$$");
+        const parts = segment.split("```");
         var html = "";
         //use 1,3,5...
         for(var i = 0;i<parts.length;i++)
