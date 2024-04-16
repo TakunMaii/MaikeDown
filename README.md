@@ -17,3 +17,26 @@ Use `maike(content)` to convert your maikedown text to html.
 const view = document.getElementById("example");
 view.innerHtml=maike(content);
 ```
+This compiler **doesn't** support a math parsing. If you need one, it is recommended to import *Mathjax*. To do so, just add this to your head (or other place you'd like).
+``` html
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+```
+To ensure the order between the maikedown parsing and the mathjax parsing, you could manually invoke `MathJax.typesetPromise()` like this.
+``` js
+const maikeit = ()=>{
+    //firstly, do maikedown
+    const mainview = document.getElementById("input");
+    const showview = document.getElementById("show");
+    const parsed = maike(mainview.value);
+    showview.innerHTML = parsed;
+    console.log(parsed);
+    //then, do mathjax
+    MathJax.typesetPromise()
+    .then(() => {
+        console.log("MathJax rendering complete.");
+    })
+    .catch((err) => console.log(err.message));
+    //the order is alternative
+}
+```
